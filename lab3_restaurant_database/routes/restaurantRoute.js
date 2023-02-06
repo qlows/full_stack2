@@ -17,24 +17,18 @@ app.get("/restaurants", async (req, res) => {
 
 // Return all restaurant details by cuisine
 // http://localhost:3000/restaurants/Japanese or /Bakery or /Italian 
-app.get("restaurants/cuisine/:cuisine", async (req, res) => {
-    const cuisine = req.params.cuisine
-    const restaurants = await restaurantModel.find({
-        cuisine: cuisine
-    })
+app.get('/restaurants/cuisine/:cuisine', async (request,response)=>{
+    const cuisine = request.params.cuisine
+    const restaurants = await restaurantModel.find({cuisine: cuisine});
 
     try {
-        if (restaurants.length != 0) {
-            res.send(restaurants)
-        }
-        else {
-            res.send(JSON.stringify({
-                status: false,
-                message: "No restaurant found"
-            }))
+        if(restaurants.length != 0){
+          response.send(restaurants);
+        }else{
+          response.send(JSON.stringify({status:false, message: "No data found"}))
         }
     } catch (err) {
-        res.status(400).send(err)
+      response.status(500).send(err);
     }
 })
 
@@ -88,18 +82,18 @@ app.get('/restaurants/:cuisine/:city', async (req, res) => {
 */
 app.post('/restaurants', async (req, res) => {
     console.log(req.body);
-    const restaurants = new restaurantModel(req.body);
+    const restaurant = new restaurantModel(req.body);
     try {
-        await restaurants.save((err) => {
-            if (err) {
-                res.status(500).send(err);
-            } else {
-                res.send(res)
-            }
+        await restaurant.save((err) => {
+          if(err){
+            res.send(err)
+          }else{
+            res.send(restaurant);
+          }
         });
-    } catch (err) {
+      } catch (err) {
         res.status(500).send(err);
-    }
+      }
 });
 
 module.exports = app

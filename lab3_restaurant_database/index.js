@@ -15,7 +15,7 @@ const app = express()
 // To return JSON
 app.use(express.json())
 
-//app.use(restaurantRoute)
+app.use(restaurantRoute)
 
 app.route("/").get((req, res) => {
     res.send("<h1>Restaurant backend</h1>")
