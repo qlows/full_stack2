@@ -6,11 +6,11 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    firstName: {
+    first_name: {
         type: String,
         required: true
     },
-    lastName: {
+    last_name: {
         type: String,
         required: true
     },
@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    createdOn: {
+    created_on: {
         type: Date,
         default: Date.now()
     },
