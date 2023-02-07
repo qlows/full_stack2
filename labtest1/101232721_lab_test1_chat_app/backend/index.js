@@ -4,9 +4,7 @@ const socketio = require("socket.io");
 const path = require('path');
 const http = require('http');
 const { chatterRooms, getChatters, joinChatter, chatterLeave } = require('./models/users');
-/* const groupMessageRoute = require('./routes/groupMessageRoute');
-const privateMessageRoute = require('./routes/privateMessageRoute');
-const userRoute = require('./routes/userRoute'); */
+
 
 // Database connection
 mongoose.connect("mongodb+srv://qlows:ananinamizuck@cluster0.hm9ineu.mongodb.net/chatapp?retryWrites=true&w=majority",
@@ -34,48 +32,36 @@ const appName = "chatter";
 
 // Run when client connects
 io.on('connection', socket => {
-    socket.on('joinChat', ({ username, chat }) => {
-        const user = joinChatter(socket.id, username, chat);
+    console.log('chatter connected');
+    socket.emit("message", "Welcome to the chat")
+    socket.on("disconnect", () => {
+        console.log('chatter disconnected');
+    })
+});
 
-        socket.join(user.chat);
+// Listen chat
+socket.on('chatMessage', msg => {
+    const user = getCurrentChatter(socket.id);
 
-        // Greet the chatter
-        socket.emit('message', formatMessage(appName, 'Welcome chatter...'));
+    io.to(user.chat).emit('message', formatMessage(user.username, msg));
+});
 
-        // When the chatter connects
-        socket.broadcast.to(user.chat).emit('message', formatMessage(appName, `${user.username} joined.`));
+// Chatter leaves
+socket.on('chatterLeft', () => {
+    const user = chatterLeave(socket.id);
 
-        // Send chatters and chat info
-        io.to(user.chat).emit('currentChatters', {
-            chat: user.chat,
+    if (user) {
+        io.to(user.chat).emit(
+            'message',
+            formatMessage(appName, `${user.username} left.`)
+        );
+
+        // Send users and room info
+        io.to(user.chat).emit('chatterRoom', {
+            chat: user.chatter,
             users: getRoomUsers(user.chat)
         });
-    });
-
-    // Listen chat
-    socket.on('chatMessage', msg => {
-        const user = getCurrentChatter(socket.id);
-
-        io.to(user.chat).emit('message', formatMessage(user.username, msg));
-    });
-
-    // Chatter leaves
-    socket.on('chatterLeft', () => {
-        const user = chatterLeave(socket.id);
-
-        if (user) {
-            io.to(user.chat).emit(
-                'message',
-                formatMessage(appName, `${user.username} left.`)
-            );
-
-            // Send users and room info
-            io.to(user.chat).emit('chatterRoom', {
-                chat: user.chatter,
-                users: getRoomUsers(user.chat)
-            });
-        }
-    });
+    }
 });
 
 
@@ -84,3 +70,25 @@ app.get('/register', async (req, res) => {
     res.sendFile(__dirname + '/frontend/register.html')
 });
 
+//http://localhost:3000/login
+app.get('/login', async (req, res) => {
+    res.sendFile(__dirname + '/public/login.html')
+});
+app.post('/login', async (req, res) => {
+    const user = new userModel(req.body);
+    try {
+        await user.save((err) => {
+            if (err) {
+                if (err.code === 11000) {
+                    return res.redirect('/signup?err=username')
+                }
+
+                res.send(err)
+            } else {
+                res.sendFile(__dirname + '/public/login.html')
+            }
+        });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
