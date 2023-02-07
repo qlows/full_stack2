@@ -72,7 +72,7 @@ app.get('/register', async (req, res) => {
 
 //http://localhost:3000/login
 app.get('/login', async (req, res) => {
-    res.sendFile(__dirname + '/public/login.html')
+    res.sendFile(__dirname + '/frontend/login.html')
 });
 app.post('/login', async (req, res) => {
     const user = new userModel(req.body);
@@ -80,12 +80,12 @@ app.post('/login', async (req, res) => {
         await user.save((err) => {
             if (err) {
                 if (err.code === 11000) {
-                    return res.redirect('/signup?err=username')
+                    return res.redirect('/register?err=username')
                 }
 
                 res.send(err)
             } else {
-                res.sendFile(__dirname + '/public/login.html')
+                res.sendFile(__dirname + '/frontend/login.html')
             }
         });
     } catch (err) {
