@@ -52,13 +52,5 @@ function chatterLeave(id) {
     }
 }
 
-
-
-module.exports = {
-    chatterRooms,
-    getChatters,
-    joinChatter,
-    chatterLeave
-};
-
 module.exports = mongoose.model("users", userSchema)
+module.exports = { chatterRooms, getChatters, joinChatter, chatterLeave };
