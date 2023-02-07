@@ -4,12 +4,12 @@ const privateMessageSchema = mongoose.Schema({
     sent_from: {
         type: mongoose.Schema.ObjectId,
         required: true,
-        ref: "users"
+        ref: "sent_from"
     },
     to_user: {
         type: mongoose.Schema.ObjectId,
         required: true,
-        ref: "users"
+        ref: "to_user"
     },
     message: {
         type: String,

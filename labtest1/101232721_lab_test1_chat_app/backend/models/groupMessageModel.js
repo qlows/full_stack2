@@ -6,10 +6,9 @@ const groupMessageSchema = mongoose.Schema({
         required: true,
         ref: "users"
     },
-    chat: {
-        type: mongoose.Schema.ObjectId,
-        required: true,
-        ref: "Chat"
+    room: {
+        type: String,
+        required: true
     },
     message: {
         type: String,
