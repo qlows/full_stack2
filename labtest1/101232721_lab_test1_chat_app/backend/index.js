@@ -84,25 +84,3 @@ app.get('/register', async (req, res) => {
     res.sendFile(__dirname + '/frontend/register.html')
 });
 
-//http://localhost:3000/login
-app.get('/login', async (req, res) => {
-    res.sendFile(__dirname + '/public/login.html')
-});
-app.post('/login', async (req, res) => {
-    const user = new userModel(req.body);
-    try {
-        await user.save((err) => {
-            if (err) {
-                if (err.code === 11000) {
-                    return res.redirect('/signup?err=username')
-                }
-
-                res.send(err)
-            } else {
-                res.sendFile(__dirname + '/public/login.html')
-            }
-        });
-    } catch (err) {
-        res.status(500).send(err);
-    }
-});
