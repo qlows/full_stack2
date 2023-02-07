@@ -6,10 +6,10 @@ const groupMessageSchema = mongoose.Schema({
         required: true,
         ref: "users"
     },
-    room: {
+    chat: {
         type: mongoose.Schema.ObjectId,
         required: true,
-        ref: "room"
+        ref: "Chat"
     },
     message: {
         type: String,

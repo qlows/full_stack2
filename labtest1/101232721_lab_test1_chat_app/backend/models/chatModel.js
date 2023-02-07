@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const roomSchema = mongoose.Schema({
     name: {
         type: String,
-        default: "Room"
+        default: "Chat"
     },
     date: {
         type: Date,
@@ -15,4 +15,4 @@ const roomSchema = mongoose.Schema({
     }],
 })
 
-module.exports = mongoose.model("room", roomSchema)
+module.exports = mongoose.model("Chat", roomSchema)
