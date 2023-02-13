@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Please enter phone'],
         validate: function (value) {
-            var phoneRegex = /^\d{1}-\d{3}-\d{3}-\d{4}$/;            ;
+            var phoneRegex = /^\d{1}-\d{3}-\d{3}-\d{4}$/;;
             return phoneRegex.test(value);
         },
         message: props => `${props.value} is not a phone number!`
@@ -68,7 +68,7 @@ const userSchema = new mongoose.Schema({
     website: {
         type: String,
         required: [true, 'Please enter website'],
-        validate: function (value) {            
+        validate: function (value) {
             var websiteRegex = /^(http|https):\/\/[^ "]+$/;
             return websiteRegex.test(value);
         },
@@ -87,7 +87,7 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: [true, 'Please enter bs'],
         }
-    } 
-    });
+    }
+});
 
 module.exports = mongoose.model('User', userSchema);
