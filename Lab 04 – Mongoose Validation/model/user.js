@@ -65,4 +65,13 @@ const userSchema = new mongoose.Schema({
         },
         message: props => `${props.value} is not a phone number!`
     },
+    website: {
+        type: String,
+        required: [true, 'Please enter website'],
+        validate: function (value) {            
+            var websiteRegex = /^(http|https):\/\/[^ "]+$/;
+            return websiteRegex.test(value);
+        },
+        message: props => `${props.value} is not a website!`
+    },
     });
