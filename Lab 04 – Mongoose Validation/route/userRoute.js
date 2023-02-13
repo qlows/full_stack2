@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../model/userModel');
 const app = express();
 
+// Create a new user
 // http://localhost:3000/users
 app.post('/users', async (req, res) => {
     const user = new User(req.body)
