@@ -1,10 +1,10 @@
 const express = require('express');
-const userModel = require('../model/userModel');
+const User = require('../model/userModel');
 const app = express();
 
 // http://localhost:3000/users
 app.post('/users', async (req, res) => {
-    const user = new userModel(req.body)
+    const user = new User(req.body)
     try {
         await user.save()
         res.status(201).send(user)
