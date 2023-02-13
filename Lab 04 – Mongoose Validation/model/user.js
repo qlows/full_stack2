@@ -14,11 +14,11 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please enter email'],
-        validate: function(value) {
+        validate: function (value) {
             var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
             return emailRegex.test(value);
         },
-        message: props => `Please enter a valid email address`
+        message: props => `${props.value} is not an email address!`
     },
     address: {
         street: {
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
         city: {
             type: String,
             required: [true, 'Please enter city'],
-            validate: function(value) {
+            validate: function (value) {
                 var cityRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
                 return cityRegex.test(value);
             },
@@ -40,9 +40,29 @@ const userSchema = new mongoose.Schema({
         zipcode: {
             type: Number,
             required: [true, 'Please enter zipcode'],
-            validate: function(value) {  
+            validate: function (value) {
                 var zipRegex = /^\d{5}(?:[-\s]\d{4})?$/;
                 return zipRegex.test(value);
             },
+            geo: {
+                lat: {
+                    type: Number,
+                    required: [true, 'Please enter latitude'],
+                },
+                lng: {
+                    type: Number,
+                    required: [true, 'Please enter longitude'],
+                }
+            }
+        },
     },
-});
+    phone: {
+        type: Number,
+        required: [true, 'Please enter phone'],
+        validate: function (value) {
+            var phoneRegex = /^\d{1}-\d{3}-\d{3}-\d{4}$/;            ;
+            return phoneRegex.test(value);
+        },
+        message: props => `${props.value} is not a phone number!`
+    },
+    });
