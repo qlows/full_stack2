@@ -8,8 +8,9 @@ app.post('/users', async (req, res) => {
     try {
         await user.save()
         res.status(201).send(user)
-    } catch (e) {
-        res.status(500).send(e.message)}
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
 })
 
 module.exports = app;
