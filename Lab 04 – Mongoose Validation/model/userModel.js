@@ -42,7 +42,13 @@ const userSchema = new mongoose.Schema({
             required: [true, 'Please enter zipcode'],
             validate: function (value) {
                 var zipRegex = /^\d{5}(?:[-\s]\d{4})?$/;
-                return zipRegex.test(value);
+                if (!zipRegex.test(value)) {
+                    throw new Error('Zipcode is not in the correct format');
+                }
+                return value;
+            },
+            set: function (value) {
+                return Number(value.split('-')[0]);
             },
             geo: {
                 lat: {
@@ -57,7 +63,7 @@ const userSchema = new mongoose.Schema({
         },
     },
     phone: {
-        type: Number,
+        type: String,
         required: [true, 'Please enter phone'],
         validate: function (value) {
             var phoneRegex = /^\d{1}-\d{3}-\d{3}-\d{4}$/;;
