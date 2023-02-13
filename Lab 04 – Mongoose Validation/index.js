@@ -1,7 +1,7 @@
-// Install required modules to work with express and mongoose
-import express from 'express';
-import mongoose from 'mongoose';
+const express = require('express');
+const mongoose = require('mongoose');
 const SERVER_PORT = 3000
+const userRouter = require('./route/userRoute');
 
 mongoose.connect("mongodb+srv://qlows:ananinamizuck@cluster0.hm9ineu.mongodb.net/restaurant_backend?retryWrites=true&w=majority",
     {
