@@ -74,4 +74,20 @@ const userSchema = new mongoose.Schema({
         },
         message: props => `${props.value} is not a website!`
     },
+    company: {
+        name: {
+            type: String,
+            required: [true, 'Please enter company name'],
+        },
+        catchPhrase: {
+            type: String,
+            required: [true, 'Please enter catch phrase'],
+        },
+        bs: {
+            type: String,
+            required: [true, 'Please enter bs'],
+        }
+    } 
     });
+
+module.exports = mongoose.model('User', userSchema);
