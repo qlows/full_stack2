@@ -14,4 +14,14 @@ app.post('/users', async (req, res) => {
     }
 })
 
+// Get all users
+// http://localhost:3000/users
+app.get('/users', async (req, res) => {
+    try {
+      const users = await User.find({})
+      res.send(users)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  })
 module.exports = app;

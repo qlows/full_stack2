@@ -19,7 +19,7 @@ app.use(userRouter);
 
 // Create a new express app instance
 app.route("/").get((req, res) => {
-    res.send("<h1>Users database</h1>")
+    res.send("<h1>Users database - Umit Kilinc 101232721</h1>")
 })
 
 // Start the server
