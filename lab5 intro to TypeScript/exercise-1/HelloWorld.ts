@@ -1,5 +1,5 @@
-var greeter = function (name) {
-    console.log("Hello, " + name);
+var greeter = (firstName: string, lastName: string) => {
+    console.log(`Hello, ${firstName} ${lastName}`);
 };
 
-greeter("World");
+greeter("John", "Doe");
